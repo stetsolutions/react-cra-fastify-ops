@@ -3,26 +3,36 @@
 Ops starter using:
 
 - Docker
-- Kustomize
+- Kustomize 4
 - Let's Encrypt
-- Sealed Secrets
+- Sealed Secrets 0.17
 
 Submodules:
 
 - [react-cra-mui-front-end](https://github.com/stetsolutions/react-cra-mui-front-end)
 - [fastify-postgresql-back-end](https://github.com/stetsolutions/fastify-postgresql-back-end)
 
+
 ## Install
 
     npm i
 
-## Fetch Sealed Secrets public key
+## Setup
 
-    npm run fetch:cert
+### Submodules
 
-## Update submodules
+#### Add
+
+    git submodule add https://github.com/stetsolutions/fastify-postgresql-back-end.git fastify-postgresql-back-end
+    git submodule add https://github.com/stetsolutions/react-cra-mui-front-end.git react-cra-mui-front-end
+
+#### Update
 
     npm run update
+
+### Kubernetes
+
+[https://github.com/stetsolutions/react-cra-fastify-ops/wiki/Kubernetes](https://github.com/stetsolutions/react-cra-fastify-ops/wiki/Kubernetes)
 
 ## Deploy 
 
