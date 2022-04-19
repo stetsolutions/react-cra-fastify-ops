@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+  name: ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: react-cra-fastify-ops-staging.stetsolutions.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: react
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: fastify
+                port:
+                  number: 3001
+  tls:
+    - hosts:
+        - react-cra-fastify-ops-staging.stetsolutions.com
+      secretName: ingress-cert

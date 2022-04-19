@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  push:
+    branches: [develop, main]
+    tags: ['v*.*.*']
+  pull_request:
+    branches: [develop, main]
+
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build_publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: true
+          token: ${{ secrets.GH_CI_TOKEN }}
+          submodules: recursive
+
+      - uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create .env
+        run: |
+          cat << EOF > ./fastify-postgresql-back-end/.env
+          FASTIFY_ADDRESS = 0.0.0.0
+          GMAIL_CLIENT_SECRET=${{ secrets.GMAIL_CLIENT_SECRET }}
+          GMAIL_CLIENT_ID=${{ secrets.GMAIL_CLIENT_ID }}
+          GMAIL_REFRESH_TOKEN=${{ secrets.GMAIL_REFRESH_TOKEN }}
+          GMAIL_USER=${{ secrets.GMAIL_USER }}
+          POSTGRES_DB=postgres
+          POSTGRES_HOST=postgres
+          POSTGRES_PASSWORD=postgres
+          POSTGRES_PORT=5432
+          POSTGRES_USER=postgres
+          SESSION_COOKIE_NAME=${{ secrets.SESSION_COOKIE_NAME }}
+          SESSION_KEY=${{ secrets.SESSION_KEY }}
+          TESTING_DB_PREFIX=react-cra-fastify-ops_test
+          TESTING_PASSWORD=foobarbazqux
+          TESTING_GMAIL_USER=${{ secrets.TESTING_GMAIL_USER }}
+          EOF
+
+      - run: docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml build
+      - run: docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml push
+
+      # - uses: matootie/dokube@v1.3.4
+      #   with:
+      #     personalAccessToken: ${{ secrets.DO_TOKEN }}
+      #     clusterName: k8s-react-cra-fastify-ops
+
+      # - run: kubectl rollout restart deployment

@@ -1,0 +1,4 @@
+resources:
+  - config/sql-config-map.yaml
+  - deployment.yaml
+  - service.yaml

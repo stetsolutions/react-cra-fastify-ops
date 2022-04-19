@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  fastify:
+    build:
+      context: ./fastify-postgresql-back-end
+      dockerfile: Dockerfile
+      target: dev
+    container_name: fastify
+    depends_on:
+      - postgres
+    env_file: 
+      - ./fastify-postgresql-back-end/.env
+    image: localhost/fastify-postgresql-back-end
+    ports:
+      - 3001:3001
+    restart: always
+  postgres: 
+    container_name: postgres
+    env_file: 
+      - ./fastify-postgresql-back-end/.env
+    hostname: localhost
+    image: postgres:14
+    ports:
+      - 5433:5432
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./fastify-postgresql-back-end/src/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+  react:
+    build:
+      context: ./react-cra-mui-front-end
+      dockerfile: Dockerfile
+      target: dev
+    container_name: react
+    image: localhost/react-cra-mui-front-end
+    ports:
+      - 3000:3000
+    restart: always
+volumes: 
+  postgres:

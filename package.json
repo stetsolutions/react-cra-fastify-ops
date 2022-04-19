@@ -1,0 +1,21 @@
+{
+  "name": "react-cra-mui-front-end-fastify",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "husky": "^7.0.4"
+  },
+  "scripts": {
+    "apply:dev": "kubectl apply -k ./kustomize/overlays/development",
+    "apply:prod": "kubectl apply -k ./kustomize/overlays/production",
+    "apply:staging": "kubectl apply -k ./kustomize/overlays/staging",
+    "compose:dev": "docker-compose up --build -d",
+    "compose:prod": "docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up --build -d",
+    "compose:staging": "docker-compose -f docker-compose.yaml -f docker-compose.staging.yaml up --build -d",
+    "delete:docker": "docker stop $(docker ps -qa); docker rm $(docker ps -qa); docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q); docker network rm $(docker network ls -q)",
+    "delete:k8s": "kubectl delete all --all",
+    "fetch:cert": "kubeseal --fetch-cert > sealed-secrets.pem",
+    "update": "git submodule update --remote --merge"
+  }
+}

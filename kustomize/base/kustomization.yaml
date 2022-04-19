@@ -1,0 +1,6 @@
+resources:
+  - fastify
+  - postgresql
+  - react
+  - issuer-production.yaml
+  - issuer-staging.yaml

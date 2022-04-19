@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastify
+spec:
+  selector:
+    app: fastify
+  ports:
+    - port: 3001
+      targetPort: 3001

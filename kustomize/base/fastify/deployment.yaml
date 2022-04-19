@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastify
+spec:
+  selector:
+    matchLabels:
+      app: fastify
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fastify
+    spec:
+      containers:
+        - name: fastify-postgresql-back-end
+          image: ghcr.io/stetsolutions/fastify-postgresql-back-end:v1.0.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: '250Mi'
+              cpu: '250m'
+          envFrom:
+            - secretRef:
+                name: secret-env
+          ports:
+            - containerPort: 3001
+      restartPolicy: Always

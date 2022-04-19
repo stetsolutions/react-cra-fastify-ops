@@ -1,0 +1,7 @@
+bases:
+  - ../../base
+resources:
+  - ingress-nginx.yaml
+  - ingress.yaml
+  - secret-env.yaml
+  - secret-registry.yaml

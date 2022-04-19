@@ -1,0 +1,11 @@
+[submodule "fastify-postgresql-back-end"]
+	path = fastify-postgresql-back-end
+	url = https://github.com/stetsolutions/fastify-postgresql-back-end.git
+	branch = main
+[submodule "react-cra-mui-front-end"]
+	path = react-cra-mui-front-end
+	url = https://github.com/stetsolutions/react-cra-mui-front-end.git
+	branch = main
+
+	# git submodule add https://github.com/stetsolutions/fastify-postgresql-back-end.git fastify-postgresql-back-end
+	# git submodule add https://github.com/stetsolutions/react-cra-mui-front-end.git react-cra-mui-front-end

@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  fastify:
+    build:
+      target: prod
+    image: ghcr.io/stetsolutions/fastify-postgresql-back-end:v1.0.0
+  react:
+    build:
+      target: prod
+    image: ghcr.io/stetsolutions/react-cra-mui-front-end:v1.0.0
+    ports:
+      - 80:80
